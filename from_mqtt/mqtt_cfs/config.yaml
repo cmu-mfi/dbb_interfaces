@@ -1,0 +1,8 @@
+topics: 
+  - 'topic_name'
+  - 'lfs/json'
+  - 'lfs/xml'
+
+topic_name: 
+  key: 'value'
+  key2: 'value2'
