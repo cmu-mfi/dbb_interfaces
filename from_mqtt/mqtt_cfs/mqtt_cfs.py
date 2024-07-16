@@ -2,6 +2,9 @@ import paho.mqtt.client as mqtt
 import base64
 import yaml
 import argparse
+import pickle
+import time
+import os
 
 class MQTTPublisher:
     
@@ -28,9 +31,36 @@ class MQTTPublisher:
 
     def on_message(self, client, userdata, message):
         print(f"Received message '{message.payload.decode()}' on topic '{message.topic}'")
-        ...
-
-
+        data = base64.b64decode(message.payload)
+        dict = pickle.loads(data)
+        filename = "untitled"
+        expected_ext = message.topic.split('/')[-1]
+        ext = expected_ext
+        
+        if 'name' in dict:
+            name = dict['name']
+            filename = name.split('.')[0]
+            ext = name.split('.')[-1]
+            if ext == filename:
+                ext = expected_ext
+        
+        if 'timestamp' in dict:
+            timestamp = dict['timestamp']
+            filename += f"_{timestamp}"
+        
+        format = "%Y-%m-%d_%H-%M"
+        filename += f"_{time.strftime(format)}" 
+        filename += f".{ext}"
+        
+        path = self.config['output_path']
+        path = os.path.join(path, expected_ext)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        
+        with open(os.path.join(path, filename), 'wb') as file:
+            file.write(dict['file'])
+        print(f"File {filename} saved to {path}")
+        
 if __name__ == '__main__':
     
     with open('secret.yaml', 'r') as file:

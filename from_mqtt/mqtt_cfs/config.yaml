@@ -1,3 +1,5 @@
+output_path: 'C:\Users\shobhita\Desktop\repos\dbb_interfaces\mqtt_cfs'
+
 topics: 
   - 'topic_name'
   - 'lfs/json'
@@ -6,3 +8,9 @@ topics:
 topic_name: 
   key: 'value'
   key2: 'value2'
+
+# expected message dictionary keys in the payload
+message_dict:
+  - 'name'
+  - 'timestamp'
+  - 'file'
