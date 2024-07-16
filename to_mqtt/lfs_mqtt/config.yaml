@@ -1,0 +1,7 @@
+watch_dir: 'C:\Users\shobhita\Desktop\repos\dbb_interfaces\lfs_mqtt'
+
+# expected message dictionary keys in the payload
+message_dict:
+  - 'name'
+  - 'timestamp'
+  - 'file'

@@ -1,17 +1,19 @@
 import paho.mqtt.client as mqtt
 import base64
 import yaml
-import argparse
+import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import pickle
+import platform
 
 class MQTTPublisher:
     
-    def __init__(self, config):
-        self.broker = config['broker']
-        self.port = config['port']
-        self.username = config['username']
-        self.password = config['password']
+    def __init__(self, secret):
+        self.broker = secret['broker']
+        self.port = secret['port']
+        self.username = secret['username']
+        self.password = secret['password']
         self.client = mqtt.Client()
         self.client.username_pw_set(self.username, self.password)
         self.client.on_connect = self.on_connect
@@ -30,9 +32,10 @@ class MQTTPublisher:
 
 class DirectoryWatcher(FileSystemEventHandler):
 
-    def __init__(self, path, mqtt_pub):
-        self.path = path
+    def __init__(self, config, mqtt_pub):
+        self.path = config['watch_dir']
         self.pub = mqtt_pub
+        self.config = config
 
     def on_created(self, event):
         if event.is_directory:
@@ -40,31 +43,55 @@ class DirectoryWatcher(FileSystemEventHandler):
         
         print(f"New file created: {event.src_path}")
         
-        with open(event.src_path, 'rb') as file:
-            data = file.read()
-        
         ext = event.src_path.split('.')[-1]    
         topic = 'lfs/' + ext
+        data_dict = {}
         
+        for key in self.config['message_dict']:
+            value = self.get_event_data(event, key)
+            if value is not None:
+                data_dict[key] = value
+                
+        data = pickle.dumps(data_dict)
         self.pub.publish(topic, data)
+        
+    def get_event_data(self, event, key):
+        match key:
+            case 'name':
+                if platform.system() == 'Windows':
+                    name = event.src_path.split('\\')[-1]
+                else:
+                    name = event.src_path.split('/')[-1]
+                print(f"Name: {name}")
+                return name
+            case 'timestamp':
+                format = "%Y-%m-%d_%H-%M"
+                return time.strftime(format)
+            case 'file':
+                with open(event.src_path, 'rb') as file:
+                    data = file.read()
+                return data
+            case _:
+                return None
 
 if __name__ == '__main__':
     
-    parser = argparse.ArgumentParser(description='Push new files to an MQTT broker')
-    parser.add_argument('--path', type=str, help='Path to the directory to watch')
-    args = parser.parse_args()
-    
     with open('secret.yaml', 'r') as file:
+        secret = yaml.safe_load(file)
+        
+    with open('config.yaml', 'r') as file:
         config = yaml.safe_load(file)
 
-    mqtt_pub = MQTTPublisher(config)
+    mqtt_pub = MQTTPublisher(secret)
     
-    DirectoryWatcher(args.path, mqtt_pub)
     observer = Observer()
-    observer.schedule(DirectoryWatcher(args.path, mqtt_pub), path=args.path, recursive=False)
+    observer.schedule(DirectoryWatcher(config, mqtt_pub), path=config['watch_dir'], recursive=False)
     observer.start()
     
-    print(f"Watching directory {args.path}")
+    print(f"Watching directory {config['watch_dir']}")
+    
+    mqtt_pub.client.loop_forever()
+    
     try:
         while True:
             pass
