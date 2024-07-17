@@ -10,7 +10,8 @@ Following interfaces subscribes to topics from the broker to store in their resp
 | --------- | --------------------------   |
 | mqtt_cfs  | Cloud File Storage (CFS)     |
 | mqtt_pi   | Aveva OSIsoft PI Historian   |
-| mqtt_sql  | SQL                          |
+| mqtt_sql_xml| SQL - Payload is XML file  |
+| mqtt_sql  | SQL - Payload is textual key-value  |
 
 ### to_mqtt
 
