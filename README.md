@@ -20,4 +20,5 @@ Following interfaces publishes topics to the broker by listening to their respec
 | ------------- | --------------------------        |
 | lfs_mqtt      | Local File Storage                |
 | ros_mqtt_lfs  | Non-Textual Data from ROS Topics (like Images/Audio/Video)  |
-| ros_mqtt_pi   | Time Series Textual ROS Topics    |
+| ros_mqtt_pi   | Time Series Textual ROS Topics [mqtt spb] |
+| ros_mqtt_sql  | Time Series Textual ROS Topics [mqtt general] |
