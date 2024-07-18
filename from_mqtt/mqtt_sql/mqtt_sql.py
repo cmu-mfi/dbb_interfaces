@@ -12,7 +12,7 @@ import yaml
 
 class SQLStore:
     def __init__(self, config_file) -> None:
-        self.db_config = self.load_db_config(config_file)
+        self.db_config = config
         logging.basicConfig(
             level=logging.DEBUG,
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -21,7 +21,7 @@ class SQLStore:
                 logging.StreamHandler()          # Log to console
             ]
         )
-        self.logger = logging.getself.logger(__name__)        
+        self.logger = logging.getLogger(__name__)        
         # self.connection = pymssql.connect(
         #     server=self.db_config['server'],
         #     user=self.db_config['username'],
@@ -32,21 +32,13 @@ class SQLStore:
     # def __del__(self):
     #     self.connection.close()
     #     self.logger.info("Database connection closed")  
-    
-    def load_db_config(self, config_path='SECRET.yaml'):
-        """Loads database configuration from a YAML file."""
-        try:
-            with open(config_path, 'r') as file:
-                config = yaml.safe_load(file)
-            return config['sql_server']
-        except Exception as e:
-            self.logger.error(f"Error loading database configuration: {e}")
-            raise
 
     def read_xml_content(self, xml_content):
         """Reads an XML file from the specified path and removes the XML declaration."""
         self.logger.info(f"Reading XML content")
         try:
+            #convert string to utf-8
+            xml_content = xml_content.encode('utf-8')
             # Remove the XML declaration
             if xml_content.startswith('<?xml'):
                 xml_content = xml_content.split('?>', 1)[1]
@@ -113,29 +105,6 @@ class MQTTSubscriber:
         print(f"Received message '{message.payload.decode()}' on topic '{message.topic}'")
         data = base64.b64decode(message.payload)
         dict = pickle.loads(data)
-        filename = "untitled"
-        expected_ext = message.topic.split('/')[-1]
-        ext = expected_ext
-        
-        if 'name' in dict:
-            name = dict['name']
-            filename = name.split('.')[0]
-            ext = name.split('.')[-1]
-            if ext == filename:
-                ext = expected_ext
-        
-        if 'timestamp' in dict:
-            timestamp = dict['timestamp']
-            filename += f"_{timestamp}"
-        
-        format = "%Y-%m-%d_%H-%M"
-        filename += f"_{time.strftime(format)}" 
-        filename += f".{ext}"
-        
-        path = self.config['output_path']
-        path = os.path.join(path, expected_ext)
-        if not os.path.exists(path):
-            os.makedirs(path)
         
         xml_content = self.sql_store.read_xml_content(dict['file'])
         self.sql_store.send_xml_to_stored_procedure(xml_content)

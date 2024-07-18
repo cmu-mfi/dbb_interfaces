@@ -1,5 +1,3 @@
-output_path: 'C:\Users\shobhita\Desktop\repos\dbb_interfaces\mqtt_cfs'
-
 topics: 
   - 'lfs/xml'
 
