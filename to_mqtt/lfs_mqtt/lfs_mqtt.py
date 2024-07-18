@@ -6,6 +6,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import pickle
 import platform
+import argparse
 
 class MQTTPublisher:
     
@@ -56,23 +57,22 @@ class DirectoryWatcher(FileSystemEventHandler):
         self.pub.publish(topic, data)
         
     def get_event_data(self, event, key):
-        match key:
-            case 'name':
-                if platform.system() == 'Windows':
-                    name = event.src_path.split('\\')[-1]
-                else:
-                    name = event.src_path.split('/')[-1]
-                print(f"Name: {name}")
-                return name
-            case 'timestamp':
-                format = "%Y-%m-%d_%H-%M"
-                return time.strftime(format)
-            case 'file':
-                with open(event.src_path, 'rb') as file:
-                    data = file.read()
-                return data
-            case _:
-                return None
+        if key == 'name':
+            if platform.system() == 'Windows':
+                name = event.src_path.split('\\')[-1]
+            else:
+                name = event.src_path.split('/')[-1]
+            print(f"Name: {name}")
+            return name
+        elif key == 'timestamp':
+            format = "%Y-%m-%d_%H-%M"
+            return time.strftime(format)
+        elif key == 'file':
+            with open(event.src_path, 'rb') as file:
+                data = file.read()
+            return data
+        else:
+            return None
 
 if __name__ == '__main__':
     
