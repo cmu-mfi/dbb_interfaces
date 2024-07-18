@@ -6,7 +6,7 @@ import pickle
 import time
 import os
 
-class MQTTPublisher:
+class MQTTSubscriber:
     
     def __init__(self, secret, config):
         self.broker = secret['broker']
@@ -20,6 +20,8 @@ class MQTTPublisher:
         self.client.connect(self.broker, self.port, 60)
         
         self.config = config
+        
+        print(config)
         
         # list of topics to subscribe 
         self.topics = self.config['topics']
@@ -69,7 +71,7 @@ if __name__ == '__main__':
     with open('config.yaml', 'r') as file:
         config = yaml.safe_load(file)
 
-    mqtt_pub = MQTTPublisher(secret, config)
+    mqtt_pub = MQTTSubscriber(secret, config)
     
     mqtt_pub.client.loop_forever()
     
