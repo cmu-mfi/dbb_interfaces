@@ -1,16 +1,18 @@
-output_path: 'C:\Users\shobhita\Desktop\repos\dbb_interfaces\mqtt_cfs'
+output_path: '/home/mfi/repos/dbb_interfaces/test'
 
 topics: 
   - 'topic_name'
   - 'lfs/json'
   - 'lfs/xml'
+  - 'ros_mqtt_lfs/audio'
 
-topic_name: 
-  key: 'value'
-  key2: 'value2'
-
-# expected message dictionary keys in the payload
+# generally expected message dictionary keys in the payload
 message_dict:
   - 'name'
   - 'timestamp'
   - 'file'
+
+ros_mqtt_lfs/audio:
+  topic: 'ros_mqtt_lfs/audio'
+  type: 'sounddevice_ros/AudioData'
+  message_dict_keys: ['audio_info', 'config', 'start_time', 'audio_data']

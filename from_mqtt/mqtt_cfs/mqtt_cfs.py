@@ -1,10 +1,13 @@
-import paho.mqtt.client as mqtt
-import base64
-import yaml
 import argparse
+import base64
+import os
 import pickle
 import time
-import os
+
+import paho.mqtt.client as mqtt
+import yaml
+from audio_download import AudioDownload
+
 
 class MQTTSubscriber:
     
@@ -26,15 +29,37 @@ class MQTTSubscriber:
         # list of topics to subscribe 
         self.topics = self.config['topics']
         for topic in self.topics:
+            print(f"Subscribing to topic '{topic}'")
             self.client.subscribe(topic)
 
     def on_connect(self, client, userdata, flags, rc):
         print(f"Connected with result code {rc}")
 
     def on_message(self, client, userdata, message):
-        print(f"Received message '{message.payload.decode()}' on topic '{message.topic}'")
+        print(f"Received message on topic '{message.topic}'")       
+        
         data = base64.b64decode(message.payload)
         dict = pickle.loads(data)
+        
+        path = self.config['output_path']
+        folder = message.topic.replace('/', '.')
+        path = os.path.join(path, folder)
+        if not os.path.exists(path):
+            os.makedirs(path)
+            
+        if message.topic in self.config:
+            self.custom_handler(dict, self.config[message.topic], path)
+            return        
+        
+        self.general_handler(message, dict, path)
+        
+    def custom_handler(self, dict, config, output_path):
+        if config['type'] == 'sounddevice_ros/AudioData':
+            print("AudioData")
+            handler = AudioDownload(config)
+            handler.save_file(dict, output_path)
+    
+    def general_handler(self, message, dict, output_path):
         filename = "untitled"
         expected_ext = message.topic.split('/')[-1]
         ext = expected_ext
@@ -54,14 +79,10 @@ class MQTTSubscriber:
         filename += f"_{time.strftime(format)}" 
         filename += f".{ext}"
         
-        path = self.config['output_path']
-        path = os.path.join(path, expected_ext)
-        if not os.path.exists(path):
-            os.makedirs(path)
-        
-        with open(os.path.join(path, filename), 'wb') as file:
+        with open(os.path.join(output_path, filename), 'wb') as file:
             file.write(dict['file'])
-        print(f"File {filename} saved to {path}")
+        print(f"File {filename} saved to {output_path}")
+            
         
 if __name__ == '__main__':
     
