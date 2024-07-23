@@ -1,0 +1,16 @@
+ros_websocket:
+  host: 'localhost'
+  port: 9090
+
+ros_topics:
+  /audio:
+    name: '/audio'
+    type: 'sounddevice_ros/AudioData'
+    audio_info_topic: '/audio_info'
+    fileprefix: 'nist_rtc_mic1'
+    fileext: 'wav'
+    duration_min: 1
+    audio_features: ['rms', 'zcr']
+    audio_feature_topics: ['ns/rms', 'ns/zcr']
+    mqtt_topic: 'ros_mqtt_lfs/audio'
+    mqtt_dict_keys: ['audio_info', 'config', 'start_time', 'audio_data']
