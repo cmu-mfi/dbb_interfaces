@@ -16,7 +16,9 @@ class AudioHandler:
         self.topic = config['name']
         self.interval_sec = config['duration_min'] * 60
         self.audio_data = []
+        self.publish_audio_data = []
         self.start_time = None
+        self.publish_start_time = None
         self.audio_info = None
         self.ros_client = ros_client
 
@@ -47,7 +49,7 @@ class AudioHandler:
     def save_audio(self):
         print('Saving audio...')
         time_format = '%Y-%m-%d_%H-%M'
-        start_time = self.start_time.strftime(time_format)
+        start_time = self.publish_start_time.strftime(time_format)
         filepath = f"{self.config['fileprefix']}_{start_time}.{self.config['fileext']}"
 
         dir = 'logs'
@@ -59,7 +61,7 @@ class AudioHandler:
                                   channels=self.audio_info['num_channels'],
                                   subtype=None if self.audio_info['subtype'] == '' else self.audio_info['subtype'])
 
-        for data in self.audio_data:
+        for data in self.publish_audio_data:
             sound_file.write(np.asarray(data).reshape(
                 (-1, self.audio_info['num_channels'])))
             
@@ -69,12 +71,12 @@ class AudioHandler:
         audio_dict = {
             'audio_info': self.audio_info,
             'config': self.config,
-            'start_time': self.start_time.strftime('%Y-%m-%d_%H-%M'),
-            'audio_data': self.audio_data,
+            'start_time': self.publish_start_time.strftime('%Y-%m-%d_%H-%M'),
+            'audio_data': self.publish_audio_data,
         }
         
         size = 0
-        for data in self.audio_data:
+        for data in self.publish_audio_data:
             size += len(data)
         print(f'Streaming audio of size {size}')
                 
@@ -95,6 +97,8 @@ class AudioHandler:
 
         now = datetime.datetime.now()
         if (now - self.start_time).seconds > self.interval_sec:
+            self.publish_audio_data = self.audio_data
+            self.publish_start_time = self.start_time
             save_audio_thread = threading.Thread(target=self.save_audio)
             stream_audio_thread = threading.Thread(target=self.stream_audio)
             save_audio_thread.start()
