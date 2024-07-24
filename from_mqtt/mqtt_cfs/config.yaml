@@ -5,6 +5,7 @@ topics:
   - 'lfs/json'
   - 'lfs/xml'
   - 'ros_mqtt_lfs/audio'
+  - 'ros_mqtt_lfs/pointcloud'
 
 # generally expected message dictionary keys in the payload
 message_dict:
@@ -16,3 +17,8 @@ ros_mqtt_lfs/audio:
   topic: 'ros_mqtt_lfs/audio'
   type: 'sounddevice_ros/AudioData'
   message_dict_keys: ['audio_info', 'config', 'start_time', 'audio_data']
+
+ros_mqtt_lfs/pointcloud:
+  topic: 'ros_mqtt_lfs/pointcloud'
+  type: 'sensor_msgs/PointCloud2'
+  message_dict_keys: ['config', 'timestamp', 'points']

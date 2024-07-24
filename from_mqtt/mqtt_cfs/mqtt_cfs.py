@@ -7,6 +7,7 @@ import time
 import paho.mqtt.client as mqtt
 import yaml
 from audio_download import AudioDownload
+from pcd_download import PCDDownload
 
 
 class MQTTSubscriber:
@@ -57,7 +58,12 @@ class MQTTSubscriber:
         if config['type'] == 'sounddevice_ros/AudioData':
             print("AudioData")
             handler = AudioDownload(config)
-            handler.save_file(dict, output_path)
+            
+        if config['type'] == 'sensor_msgs/PointCloud2':
+            print("PointCloud2")
+            handler = PCDDownload(config)
+            
+        handler.save_file(dict, output_path)
     
     def general_handler(self, message, dict, output_path):
         filename = "untitled"

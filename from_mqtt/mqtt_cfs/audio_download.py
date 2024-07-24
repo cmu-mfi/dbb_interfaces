@@ -15,7 +15,7 @@ class AudioDownload:
         if not all(key in message for key in self.config['message_dict_keys']):
             print('Data not saved. Message keys do not match config keys')
             print(f"Message keys: {message.keys()}")
-            print(f"Config keys: {self.config.keys()}")
+            print(f"Config keys: {self.config['message_dict_keys']}")
             return
 
         start_time = message['start_time']
