@@ -2,7 +2,7 @@ import roslibpy
 import yaml
 from audio_handler import AudioHandler
 from mqtt_publisher import MQTTPublisher
-import time
+from pcd_handler import PCDHandler
 
 
 class ROSListener:
@@ -40,8 +40,10 @@ class ROSListener:
     def get_topichandler(self, topic):
         topic_config = self.config['ros_topics'][topic]
         if topic_config['type'] == 'sounddevice_ros/AudioData':
-            # return AudioHandler(topic_config, self.ros_client)
             return AudioHandler(topic_config, self.ros_client, self.mqtt_obj)
+        if topic_config['type'] == 'sensor_msgs/PointCloud2':
+            return PCDHandler(topic_config, self.ros_client, self.mqtt_obj)
+        
         else:
             raise (f"Unknown topic type: {topic_config['type']}")
 
