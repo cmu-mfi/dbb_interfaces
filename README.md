@@ -19,5 +19,5 @@ Following interfaces publishes topics to the broker by listening to their respec
 | Interface     | Source    |
 | ------------- | --------------------------        |
 | [lfs_mqtt](https://github.com/cmu-mfi/dbb_interfaces/tree/main/to_mqtt/lfs_mqtt)      | Local File Storage                |
-| [ros_mqtt_lfs](https://github.com/cmu-mfi/dbb_interfaces/tree/main/to_mqtt/ros_mqtt_lfs)  | Non-Textual Data from ROS Topics (like Images/Audio/Video)  |
+| [ros_mqtt_cfs](https://github.com/cmu-mfi/dbb_interfaces/tree/main/to_mqtt/ros_mqtt_cfs)  | Non-Textual Data from ROS Topics (like Images/Audio/Video)  |
 | [ros_mqtt_pi](https://github.com/cmu-mfi/dbb_interfaces/tree/main/to_mqtt/ros_mqtt_pi)   | Time Series Textual ROS Topics [mqtt spb] |
