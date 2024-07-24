@@ -85,7 +85,7 @@ if __name__ == '__main__':
     mqtt_pub = MQTTPublisher(secret)
     
     observer = Observer()
-    observer.schedule(DirectoryWatcher(config, mqtt_pub), path=config['watch_dir'], recursive=False)
+    observer.schedule(DirectoryWatcher(config, mqtt_pub), path=config['watch_dir'], recursive=True)
     observer.start()
     
     print(f"Watching directory {config['watch_dir']}")
