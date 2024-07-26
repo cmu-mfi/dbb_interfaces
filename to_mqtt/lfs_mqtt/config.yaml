@@ -1,4 +1,4 @@
-watch_dir: 'C:\Users\shobhita\Desktop\repos\dbb_interfaces\lfs_mqtt'
+watch_dir: ['/home/mfi/repos/dbb_interfaces']
 
 # expected message dictionary keys in the payload
 message_dict:

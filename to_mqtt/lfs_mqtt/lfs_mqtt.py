@@ -83,12 +83,14 @@ if __name__ == '__main__':
         config = yaml.safe_load(file)
 
     mqtt_pub = MQTTPublisher(secret)
-    
-    observer = Observer()
-    observer.schedule(DirectoryWatcher(config, mqtt_pub), path=config['watch_dir'], recursive=True)
-    observer.start()
-    
-    print(f"Watching directory {config['watch_dir']}")
+
+    observers = []    
+    for dir in config['watch_dir']: 
+        observer = Observer()
+        observer.schedule(DirectoryWatcher(config, mqtt_pub), path=dir, recursive=True)
+        observer.start()
+        print(f"Watching directory {dir}")
+        observers.append(observer)
     
     mqtt_pub.client.loop_forever()
     
@@ -96,5 +98,7 @@ if __name__ == '__main__':
         while True:
             pass
     except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+        for observer in observers:
+            observer.stop()
+    for observer in observers:
+        observer.join()
