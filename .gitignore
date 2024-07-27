@@ -3,3 +3,4 @@ venv/
 .vscode/
 logs/
 __pycache__/
+secret.yaml
