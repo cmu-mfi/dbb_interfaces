@@ -1,6 +1,5 @@
 .venv/
 venv/
 .vscode/
-secret.yaml
 logs/
 __pycache__/

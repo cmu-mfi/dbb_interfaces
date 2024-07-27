@@ -1,6 +1,7 @@
 # Digital Backbone Interfaces
 
 The digital backbone (DBB) architecture is inspired by the unified namespace concept. It uses MQTT broker to stream data from source to respective databases.
+More information about architecture and concept can be found [here (https://cmu-mfi.github.io/rtc/DBB.html)](https://cmu-mfi.github.io/rtc/DBB.html)
 
 ### from_mqtt
 
