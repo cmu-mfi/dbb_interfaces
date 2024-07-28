@@ -6,6 +6,8 @@ topics:
   - 'lfs/xml'
   - 'ros_mqtt_lfs/audio'
   - 'ros_mqtt_lfs/pointcloud'
+  - 'lfs/ply'
+  - 'ros_mqtt_lfs/image'
 
 # generally expected message dictionary keys in the payload
 message_dict:
