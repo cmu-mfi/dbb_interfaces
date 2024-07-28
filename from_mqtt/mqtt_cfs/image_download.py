@@ -1,16 +1,15 @@
 import os
 
-import numpy as np
-import open3d as o3d
+import cv2
 
 
-class PCDDownload:
+class ImageDownload:
     def __init__(self, config) -> None:
         self.config = config
-        print('PCD Handler initialized')
+        print('Image Handler initialized')
 
     def save_file(self, message, output_path):
-        print('Saving pcd...')
+        print('Saving image...')
 
         if not all(key in message for key in self.config['message_dict_keys']):
             print('Data not saved. Message keys do not match config keys')
@@ -25,11 +24,8 @@ class PCDDownload:
         filename = f"{filename_prefix}_{timestamp}.{fileext}"
         filepath = os.path.join(output_path, filename)
         
-        points = message['points']
-        pcd = o3d.geometry.PointCloud()
-        pcd.points = o3d.utility.Vector3dVector(points)
-        
-        o3d.io.write_point_cloud(filepath, pcd)
+        image = message['data']        
+        cv2.imwrite(filepath, image)
             
-        print(f'Pointcloud Saved as {filename} to {output_path}')
+        print(f'Image saved as {filename} to {output_path}')
 

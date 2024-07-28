@@ -22,3 +22,8 @@ ros_mqtt_lfs/pointcloud:
   topic: 'ros_mqtt_lfs/pointcloud'
   type: 'sensor_msgs/PointCloud2'
   message_dict_keys: ['config', 'timestamp', 'points']
+
+ros_mqtt_lfs/image:
+  topic: 'ros_mqtt_lfs/image'
+  type: 'sensor_msgs/Image'
+  message_dict_keys: ['config', 'timestamp', 'data']

@@ -8,6 +8,7 @@ import paho.mqtt.client as mqtt
 import yaml
 from audio_download import AudioDownload
 from pcd_download import PCDDownload
+from image_download import ImageDownload
 
 
 class MQTTSubscriber:
@@ -59,9 +60,13 @@ class MQTTSubscriber:
             print("AudioData")
             handler = AudioDownload(config)
             
-        if config['type'] == 'sensor_msgs/PointCloud2':
+        elif config['type'] == 'sensor_msgs/PointCloud2':
             print("PointCloud2")
             handler = PCDDownload(config)
+            
+        elif config['type'] == 'sensor_msgs/Image':
+            print("Image")
+            handler = ImageDownload(config)
             
         handler.save_file(dict, output_path)
     

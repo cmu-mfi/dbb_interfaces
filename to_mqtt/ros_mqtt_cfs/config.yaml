@@ -22,3 +22,11 @@ ros_topics:
     fileext: 'ply'
     mqtt_topic: 'ros_mqtt_lfs/pointcloud'
     mqtt_dict_keys: ['config', 'timestamp', 'points']
+
+  /camera/color/image_raw:
+    name: '/camera/color/image_raw'
+    type: 'sensor_msgs/Image'
+    fileprefix: 'nist_rtc_mic1'
+    fileext: 'png'
+    mqtt_topic: 'ros_mqtt_lfs/image'
+    mqtt_dict_keys: ['config', 'timestamp', 'data']
