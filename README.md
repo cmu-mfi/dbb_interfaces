@@ -23,6 +23,15 @@ Following interfaces publishes topics to the broker by listening to their respec
 | [ros_mqtt_cfs](https://github.com/cmu-mfi/dbb_interfaces/tree/main/to_mqtt/ros_mqtt_cfs)  | Non-Textual Data from ROS Topics (like Images/Audio/Video)  |
 | [ros_mqtt_pi](https://github.com/cmu-mfi/dbb_interfaces/tree/main/to_mqtt/ros_mqtt_pi)   | Time Series Textual ROS Topics [mqtt spb] |
 
+### Retrieval
+
+Following script retrieves data from cloud file share and creates a zip file, based on user selection using SQL data
+
+| Interface     | Source    |
+| ------------- | --------------------------        |
+| [retrieval](https://github.com/cmu-mfi/dbb_interfaces/tree/main/Retrieval)      | Cloud Storage Files to Zip|
+
+
 
 ## Install and Usage
 
