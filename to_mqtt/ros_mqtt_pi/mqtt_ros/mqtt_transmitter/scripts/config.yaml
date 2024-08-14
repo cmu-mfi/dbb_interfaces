@@ -1,0 +1,56 @@
+mqtt:
+  broker_address: "255.255.255.255" 
+  broker_port: 1883 
+  username: admin
+  password: 0x0x0x0x0x0x
+  group_name: Mill-19
+  node_name: Mezzanine-Lab
+  tls_enabled: False
+
+devices:
+  yk_architect: 
+    topics: [fts]
+    attributes:
+      description: Architect - Yaskawa GP4 Robot System,
+      type: Robot,
+      version: "0.01"    
+  yk_builder: 
+    topics: [fts]
+    attributes:
+      description: Builder - Yaskawa GP4 Robot System,
+      type: Robot,
+      version: "0.01"    
+  yk_creator: 
+    topics: [fts]
+    attributes:
+      description: Creator - Yaskawa GP4 Robot System,
+      type: Robot,
+      version: "0.01"    
+  yk_destroyer: 
+    topics: [fts]
+    attributes:
+      description: Destroyer - Yaskawa GP4 Robot System,
+      type: Robot,
+      version: "0.01"    
+
+topics:
+  fts:
+    rostopic: fts
+    ros_type: geometry_msgs/WrenchStamped
+    function: wrenchstamped_to_bytearray
+    spb_prefix: fts
+    spb_init:
+      header.seq: 0
+      header.stamp.sec: 0
+      header.stamp.nsec: 0
+      header.frame_id: ""
+      wrench.force.x: 0.0
+      wrench.force.y: 0.0
+      wrench.force.z: 0.0
+      wrench.torque.x: 0.0
+      wrench.torque.y: 0.0
+      wrench.torque.z: 0.0
+  
+  
+
+

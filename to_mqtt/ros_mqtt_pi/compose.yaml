@@ -1,0 +1,23 @@
+services:
+  mqtt_ros:
+    build:
+      context: ./mqtt_ros
+      dockerfile: Dockerfile
+    image: mqtt_ros_publisher:latest
+    container_name: mqtt_ros
+    hostname: mqtt_ros
+    networks:
+      - ros
+    environment:
+      - "ROS_MASTER_URI=http://192.168.1.2:11311"
+    command:
+      - /publisher_start.sh
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1G                    
+
+networks:
+  ros:
+

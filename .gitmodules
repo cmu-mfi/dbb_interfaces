@@ -1,0 +1,3 @@
+[submodule "to_mqtt/ros_mqtt_pi/mqtt-ros"]
+	path = to_mqtt/ros_mqtt_pi/mqtt-ros
+	url = https://github.com/cmu-mfi/mqtt-ros.git
