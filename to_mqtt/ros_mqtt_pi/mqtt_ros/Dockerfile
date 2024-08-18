@@ -3,8 +3,8 @@ FROM ros:noetic-ros-core-focal
 # Install necessary packages for adding ROS repository
 RUN apt-get update
 RUN apt-get install -y git && apt-get install -y python3-pip
-# RUN apt-get install -y ros-noetic-catkin
-# RUN apt-get install -y ros-noetic-industrial-core
+RUN apt-get install -y ros-noetic-catkin
+RUN apt-get install -y ros-noetic-industrial-core
 RUN apt-get install -y ros-noetic-std-msgs
 RUN apt-get install -y tmux
 RUN apt-get install -y vim

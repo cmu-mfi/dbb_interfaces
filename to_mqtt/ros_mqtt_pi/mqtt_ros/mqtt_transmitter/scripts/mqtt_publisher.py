@@ -27,13 +27,14 @@ class SPBDevice:
         mqtt_port = int(self.cfg['mqtt']['broker_port'])
         mqtt_user = self.cfg['mqtt']['username']
         mqtt_pass = self.cfg['mqtt']['password']
-        mqtt_tls_enabled = False
+        mqtt_tls_enabled = self.cfg['mqtt']['tls_enabled']
+        debug = self.cfg['mqtt']['debug']
         device_name = self.name
 
         self.device = MqttSpbEntityDevice(group_name,
                                           edge_node_name,
                                           device_name,
-                                          True)
+                                          debug)
 
         # Connect to the broker --------------------------------------------
         _connected = False
@@ -72,14 +73,16 @@ class SPBDevice:
             ros_type = topic_cfg['ros_type']
             func_name = topic_cfg['function']
 
-            func = getattr(ros_callback, func_name)
-
+            # func = ros_callback.function_mapper().get_function(func_name)
+            func = getattr(ros_callback, func_name)            
             ros_msg_class = get_message_class(ros_type)
             
             try:
                 if ros_msg_class is not None:
                     rospy.Subscriber(self.name+'/'+rostopic, ros_msg_class,
-                                     lambda msg: func(self.device, msg, prefix))
+                                     func, callback_args=(self.device, prefix))
+                                    #  lambda msg: func(self.device, msg, prefix))
+                    print(f"Subscribed to topic {self.name+'/'+rostopic}, {ros_msg_class}, calling {func_name}")
                 else:
                     print(f"Could not find message class for topic {self.name+rostopic}")
             except Exception as e:

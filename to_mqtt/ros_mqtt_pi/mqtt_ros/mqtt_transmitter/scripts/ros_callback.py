@@ -1,10 +1,13 @@
+import rospy
 from geometry_msgs.msg import WrenchStamped
 from industrial_msgs.msg import RobotStatus
 from mqtt_spb_wrapper import MqttSpbEntityDevice
 from sensor_msgs.msg import JointState
 
 
-def wrenchstamped_to_bytearray(device: MqttSpbEntityDevice, ros_data, prefix):
+def wrenchstamped_to_bytearray(ros_data, callback_args):
+    device = callback_args[0]
+    prefix = callback_args[1]
     if isinstance(ros_data, WrenchStamped):
         
         prefix = 'DATA/'+prefix
@@ -23,9 +26,11 @@ def wrenchstamped_to_bytearray(device: MqttSpbEntityDevice, ros_data, prefix):
         device.publish_data()
         
     else:
-        print(f"Data is not of type WrenchStamped, it is {type(ros_data)}")
+        rospy.logerr(f"Data is not of type WrenchStamped, it is {type(ros_data)}")
 
-def robotstatus_to_bytearray(device: MqttSpbEntityDevice, ros_data, prefix):
+def robotstatus_to_bytearray(ros_data, callback_args):
+    device = callback_args[0]
+    prefix = callback_args[1]
     if isinstance(ros_data, RobotStatus):
 
         prefix = 'DATA/'+prefix
@@ -44,9 +49,11 @@ def robotstatus_to_bytearray(device: MqttSpbEntityDevice, ros_data, prefix):
         
         device.publish_data()
     else:
-        print(f"Data is not of type RobotStatus, it is of type {type(ros_data)}")
+        rospy.logerr(f"Data is not of type RobotStatus, it is of type {type(ros_data)}")
 
-def jointstate_to_bytearray(device: MqttSpbEntityDevice, ros_data, prefix):
+def jointstates_to_bytearray(ros_data, callback_args):
+    device = callback_args[0]
+    prefix = callback_args[1]
     if isinstance(ros_data, JointState):
 
         prefix = 'DATA/'+prefix
@@ -57,9 +64,15 @@ def jointstate_to_bytearray(device: MqttSpbEntityDevice, ros_data, prefix):
         device.data.set_value(prefix+"/header.frame_id", data.header.frame_id)
         
         for i in range(1, len(data.name) + 1):
-            device.data.set_value(f"{prefix}/position/joint_{i}", data.position[i-1])
-            device.data.set_value(f"{prefix}/velocity/joint_{i}", data.velocity[i-1])
+            try:
+                device.data.set_value(f"{prefix}/position/joint_{i}", data.position[i-1])
+            except:
+                pass
+            try:
+                device.data.set_value(f"{prefix}/velocity/joint_{i}", data.velocity[i-1])
+            except:
+                pass
 
         device.publish_data()
     else:
-        print(f"Data is not of type JointState, it is of type {type(ros_data)}")
+        rospy.logerr(f"Data is not of type JointState, it is of type {type(ros_data)}")

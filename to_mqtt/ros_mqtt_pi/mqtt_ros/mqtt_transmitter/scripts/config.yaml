@@ -6,33 +6,39 @@ mqtt:
   group_name: Mill-19
   node_name: Mezzanine-Lab
   tls_enabled: False
+  debug: True
 
 devices:
-  yk_architect: 
+  yk_architect:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Architect - Yaskawa GP4 Robot System
       type: Robot
-      version: 0.01    
-  yk_builder: 
+      version: 0.01
+  yk_builder:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Builder - Yaskawa GP4 Robot System
       type: Robot
-      version: 0.01    
-  yk_creator: 
+      version: 0.01
+  yk_creator:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Creator - Yaskawa GP4 Robot System
       type: Robot
-      version: 0.01    
-  yk_destroyer: 
+      version: 0.01
+  yk_destroyer:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Destroyer - Yaskawa GP4 Robot System
       type: Robot
-      version: 0.01    
-
+      version: 0.01
+  sim1:
+    topics: [robot_status, joints_6dof]
+    attributes:
+      description: Sim Robot - Yaskawa GP4 Robot System
+      type: Simulation Robot
+      version: 0.01
 
 # If adding new topics, make sure to add the corresponding functions in the ros_callback.py file
 topics:
@@ -62,7 +68,7 @@ topics:
       header.seq: 0
       header.stamp.secs: 0
       header.stamp.nsecs: 0
-      header.frame.id: ""
+      header.frame_id: ""
       mode.val: -1
       e_stopped.val: -1
       drives_powered.val: -1
@@ -80,7 +86,7 @@ topics:
       header.seq: 0
       header.stamp.secs: 0
       header.stamp.nsecs: 0
-      header.frame.id: 0
+      header.frame_id: 0
       position/joint_1: 0.0
       position/joint_2: 0.0
       position/joint_3: 0.0
@@ -93,5 +99,3 @@ topics:
       velocity/joint_4: 0.0
       velocity/joint_5: 0.0
       velocity/joint_6: 0.0
-
-
