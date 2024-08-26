@@ -7,8 +7,9 @@ ros_topics:
     name: '/yk_creator/audio'
     type: 'sounddevice_ros/AudioData'
     audio_info_topic: '/yk_creator/audio_info'
-    fileprefix: 'nist_rtc_ykc_mic1'
-    fileext: 'wav'
+    experiment_class: 'wp-place-train' # maximum allowed characters = 32
+    fileprefix: 'nist_rtc_ykc_mic1' # maximum allowed characters = 32
+    fileext: 'wav' # maximum allowed characters = 8
     duration_min: 1
     audio_features: ['rms', 'zcr', 'max_freq']
     audio_feature_topics: ['yk_creator/rms', 'yk_creator/zcr', 'yk_creator/max_freq']
@@ -20,8 +21,9 @@ ros_topics:
     name: '/yk_builder/audio'
     type: 'sounddevice_ros/AudioData'
     audio_info_topic: '/yk_builder/audio_info'
-    fileprefix: 'nist_rtc_ykb_mic1'
-    fileext: 'wav'
+    experiment_class: 'wp-place-train' # maximum allowed characters = 32
+    fileprefix: 'nist_rtc_ykb_mic1' # maximum allowed characters = 32
+    fileext: 'wav' # maximum allowed characters = 8
     duration_min: 1
     audio_features: ['rms', 'zcr', 'max_freq']
     audio_feature_topics: ['yk_builder/rms', 'yk_builder/zcr', 'yk_builder/max_freq']
@@ -32,8 +34,9 @@ ros_topics:
   /camera/depth/color/points:
     name: '/camera/depth/color/points'
     type: 'sensor_msgs/PointCloud2'
-    fileprefix: 'nist_rtc_ykb_rs'
-    fileext: 'ply'
+    experiment_class: 'wp-place-train' # maximum characters allowed = 32
+    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32
+    fileext: 'ply' # maximum allowed characters = 8
     mqtt_topic: 'ros_mqtt_lfs/pointcloud'
     mqtt_dict_keys: ['config', 'timestamp', 'points']
     keep_log: False
@@ -41,8 +44,9 @@ ros_topics:
   /camera/color/image_raw:
     name: '/camera/color/image_raw'
     type: 'sensor_msgs/Image'
-    fileprefix: 'nist_rtc_ykb_rs'
-    fileext: 'png'
+    experiment_class: 'wp-place-train' # maximum characters allowed = 32
+    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32
+    fileext: 'png' # maximum allowed characters = 8
     mqtt_topic: 'ros_mqtt_lfs/image'
     mqtt_dict_keys: ['config', 'timestamp', 'data']
     keep_log: False
@@ -50,8 +54,9 @@ ros_topics:
   /yk_creator/wrist_camera/color/image_raw:
     name: '/yk_creator/wrist_camera/color/image_raw'
     type: 'sensor_msgs/Image'
-    fileprefix: 'nist_rtc_ykc_wrist'
-    fileext: 'png'
+    experiment_class: 'wp-place-train' # maximum allowed characters = 32
+    fileprefix: 'nist_rtc_ykc_wrist' # maximum allowed characters = 32
+    fileext: 'png' # maximum allowed characters = 8
     mqtt_topic: 'ros_mqtt_lfs/image'
     mqtt_dict_keys: ['config', 'timestamp', 'data']
     keep_log: False
@@ -59,8 +64,9 @@ ros_topics:
   /yk_creator/side_camera/color/image_cropped:
     name: '/yk_creator/side_camera/color/image_cropped'
     type: 'sensor_msgs/Image'
-    fileprefix: 'nist_rtc_ykc_side'
-    fileext: 'png'
+    experiment_class: 'wp-place-train' # maximum allowed characters = 32
+    fileprefix: 'nist_rtc_ykc_side' # maximum allowed characters = 32
+    fileext: 'png' # maximum allowed characters = 8
     mqtt_topic: 'ros_mqtt_lfs/image'
     mqtt_dict_keys: ['config', 'timestamp', 'data']
     keep_log: False

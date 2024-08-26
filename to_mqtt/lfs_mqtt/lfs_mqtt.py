@@ -71,6 +71,11 @@ class DirectoryWatcher(FileSystemEventHandler):
             with open(event.src_path, 'rb') as file:
                 data = file.read()
             return data
+        elif key == 'experiment_class':
+            try:
+                return self.config['experiment_class']
+            except:
+                return ""
         else:
             return None
 

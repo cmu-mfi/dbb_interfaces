@@ -4,3 +4,4 @@ venv/
 logs/
 __pycache__/
 secret.yaml
+mqtt_test/

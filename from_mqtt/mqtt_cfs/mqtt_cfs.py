@@ -3,11 +3,12 @@ import os
 import pickle
 import time
 
+import numpy as np
 import paho.mqtt.client as mqtt
 import yaml
 from audio_download import AudioDownload
-from pcd_download import PCDDownload
 from image_download import ImageDownload
+from pcd_download import PCDDownload
 
 
 class MQTTSubscriber:
@@ -71,6 +72,8 @@ class MQTTSubscriber:
     
     def general_handler(self, message, dict, output_path):
         filename = "untitled"
+        experiment_class = ''.join(np.random.choice(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
+        timestamp = f"_{time.strftime("%Y-%m-%d_%H-%M")}"
         expected_ext = message.topic.split('/')[-1]
         ext = expected_ext
         
@@ -80,15 +83,17 @@ class MQTTSubscriber:
             ext = name.split('.')[-1]
             if ext == filename:
                 ext = expected_ext
+                
+        if 'experiment_class' in dict:
+            if dict['experiment_class'] != '':
+                experiment_class = dict['experiment_class']
+        filename += f"_{experiment_class}"
         
         if 'timestamp' in dict:
             timestamp = dict['timestamp']
-            filename += f"_{timestamp}"
-        
-        format = "%Y-%m-%d_%H-%M"
-        filename += f"_{time.strftime(format)}" 
-        filename += f".{ext}"
-        
+        filename += f"_{timestamp}"
+
+        filename += f".{ext}"        
         with open(os.path.join(output_path, filename), 'wb') as file:
             file.write(dict['file'])
         print(f"File {filename} saved to {output_path}")

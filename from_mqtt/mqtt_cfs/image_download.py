@@ -1,6 +1,7 @@
 import os
 
 import cv2
+import numpy as np
 
 
 class ImageDownload:
@@ -21,7 +22,16 @@ class ImageDownload:
         filename_prefix = message['config']['fileprefix']
         fileext = message['config']['fileext']
 
-        filename = f"{filename_prefix}_{timestamp}.{fileext}"
+        try:
+            experiment_class = message['config']['experiment_class']
+        except KeyError:
+            # generate random 4 characters alphanumeric string for experiment class
+            experiment_class = ''.join(np.random.choice(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
+
+        if '_' in experiment_class:
+            experiment_class = experiment_class.replace('_', '-')
+        
+        filename = f"{filename_prefix}_{experiment_class}_{timestamp}.{fileext}"
         filepath = os.path.join(output_path, filename)
         
         image = message['data']        

@@ -22,8 +22,17 @@ class AudioDownload:
         audio_info = message['audio_info']
         filename_prefix = message['config']['fileprefix']
         fileext = message['config']['fileext']
+        
+        try:
+            experiment_class = message['config']['experiment_class']
+        except KeyError:
+            # generate random 4 characters alphanumeric string for experiment class
+            experiment_class = ''.join(np.random.choice(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
 
-        filename = f"{filename_prefix}_{start_time}.{fileext}"
+        if '_' in experiment_class:
+            experiment_class = experiment_class.replace('_', '-')
+        
+        filename = f"{filename_prefix}_{experiment_class}_{start_time}.{fileext}"
         filepath = os.path.join(output_path, filename)
 
         sound_file = sf.SoundFile(filepath, mode='w',

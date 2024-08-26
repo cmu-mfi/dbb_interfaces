@@ -1,7 +1,10 @@
-watch_dir: ['/home/mfi/repos/dbb_interfaces']
+watch_dir: ['/home/mfi/repos/dbb_interfaces/data']
+
+experiment_class: 'wp-place-01'
 
 # expected message dictionary keys in the payload
 message_dict:
   - 'name'
-  - 'timestamp'
+  # - 'timestamp'
   - 'file'
+  - 'experiment_class'
