@@ -101,9 +101,11 @@ class ImageHandler:
         image = np.array(im[:,:,0:3])
    
         # save and stream image
-        save_pcd_thread = threading.Thread(
+        save_image_thread = threading.Thread(
             target=self.save_image, args=(image, timestamp,))
-        stream_pcd_thread = threading.Thread(
+        stream_image_thread = threading.Thread(
             target=self.stream_image, args=(image, timestamp,))
-        save_pcd_thread.start()
-        stream_pcd_thread.start()
+        
+        if self.config['keep_log']:
+            save_image_thread.start()
+        stream_image_thread.start()

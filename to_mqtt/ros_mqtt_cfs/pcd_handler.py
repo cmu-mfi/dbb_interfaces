@@ -110,7 +110,9 @@ class PCDHandler:
             target=self.save_pcd, args=(open3d_cloud, timestamp,))
         stream_pcd_thread = threading.Thread(
             target=self.stream_pcd, args=(open3d_cloud, timestamp,))
-        save_pcd_thread.start()
+        
+        if self.config['keep_log']:       
+            save_pcd_thread.start()
         stream_pcd_thread.start()
 
     def read_points(self, cloud, field_names=None, skip_nans=False, uvs=[]):

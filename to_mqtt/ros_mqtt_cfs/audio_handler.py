@@ -101,7 +101,8 @@ class AudioHandler:
             self.publish_start_time = self.start_time
             save_audio_thread = threading.Thread(target=self.save_audio)
             stream_audio_thread = threading.Thread(target=self.stream_audio)
-            save_audio_thread.start()
+            if self.config['keep_log']:
+                save_audio_thread.start()
             stream_audio_thread.start()
             self.reset()
             
@@ -116,6 +117,9 @@ class AudioHandler:
             elif audio_feature == 'zcr':
                 feature_value = np.mean(
                     np.abs(np.diff(np.sign(message['data']))))
-
+                
+            elif audio_feature == 'max_freq':
+                feature_value = np.max(np.abs(np.fft.fft(message['data'])))                
+            
             audio_feature_pub.publish(
                 roslibpy.Message({'data': feature_value}))
