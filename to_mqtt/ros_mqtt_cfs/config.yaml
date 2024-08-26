@@ -1,3 +1,5 @@
+experiment_class: 'wp-place-train'
+
 ros_websocket:
   host: 'localhost'
   port: 9090

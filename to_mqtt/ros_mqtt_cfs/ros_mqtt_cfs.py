@@ -60,6 +60,12 @@ if __name__ == '__main__':
 
     # merge secret and config
     config['secret'] = secret
+    
+    # add global config to each instance
+    experiment_class = config['experiment_class']
+    for topic in config['ros_topics']:
+        if 'experiment_class' not in config['ros_topics'][topic]:
+            config['ros_topics'][topic]['experiment_class'] = experiment_class
 
     obj = ROSListener(config)
 

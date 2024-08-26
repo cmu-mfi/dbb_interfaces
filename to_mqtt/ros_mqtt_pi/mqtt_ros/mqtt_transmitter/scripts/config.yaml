@@ -8,6 +8,8 @@ mqtt:
   tls_enabled: False
   debug: True
 
+experiment_class: 'wp-place-01'
+
 devices:
   yk_architect:
     topics: [fts, robot_status, joints_6dof]
@@ -15,30 +17,35 @@ devices:
       description: Architect - Yaskawa GP4 Robot System
       type: Robot
       version: 0.01
+      experiment_class: 'wp-place-01'
   yk_builder:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Builder - Yaskawa GP4 Robot System
       type: Robot
       version: 0.01
+      experiment_class: 'wp-place-01'
   yk_creator:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Creator - Yaskawa GP4 Robot System
       type: Robot
       version: 0.01
+      experiment_class: 'wp-place-01'
   yk_destroyer:
     topics: [fts, robot_status, joints_6dof]
     attributes:
       description: Destroyer - Yaskawa GP4 Robot System
       type: Robot
       version: 0.01
+      experiment_class: 'wp-place-01'
   sim1:
     topics: [robot_status, joints_6dof]
     attributes:
       description: Sim Robot - Yaskawa GP4 Robot System
       type: Simulation Robot
       version: 0.01
+      experiment_class: 'wp-place-01'
 
 # If adding new topics, make sure to add the corresponding functions in the ros_callback.py file
 topics:

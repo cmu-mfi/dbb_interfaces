@@ -99,6 +99,13 @@ if __name__ == "__main__":
 
     with open(config_path, 'r') as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
+        
+    # add global config to each instance
+    experiment_class = config['experiment_class']
+
+    for device in config['devices'].keys():
+        if 'experiment_class' not in config['devices'][device]['attributes']:
+            config['devices'][device]['attributes']['experiment_class'] = experiment_class
 
     for device in config['devices'].keys():
         spb_device = SPBDevice(config, device)
