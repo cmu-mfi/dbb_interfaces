@@ -35,10 +35,12 @@ read
 echo "Starting DATA STREAMING..."
 
 create_window "DDB_UPSTREAM" "lfs_mqtt"
-tmux send-keys -t DDB_UPSTREAM:lfs_mqtt 'python3 to_mqtt/lfs_mqtt/lfs_mqtt.py' C-m
+tmux send-keys -t DDB_UPSTREAM:lfs_mqtt 'cd lfs_mqtt/' C-m
+tmux send-keys -t DDB_UPSTREAM:lfs_mqtt 'python3 lfs_mqtt.py' C-m
 
 create_window "DDB_UPSTREAM" "ros_mqtt_cfs"
-tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'python3 to_mqtt/ros_mqtt_cfs/ros_mqtt_cfs.py' C-m
+tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'cd ros_mqtt_cfs/' C-m
+tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'python3 ros_mqtt_cfs.py' C-m
 
 create_window "DDB_UPSTREAM" "ros_mqtt_pi"
 tmux send-keys -t DDB_UPSTREAM:ros_mqtt_pi 'cd ros_mqtt_pi' C-m

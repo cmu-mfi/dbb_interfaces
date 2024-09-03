@@ -20,6 +20,7 @@ class ImageDownload:
 
         timestamp = message['timestamp']
         filename_prefix = message['config']['fileprefix']
+        filename_prefix = filename_prefix.replace('_', '-')
         fileext = message['config']['fileext']
 
         try:

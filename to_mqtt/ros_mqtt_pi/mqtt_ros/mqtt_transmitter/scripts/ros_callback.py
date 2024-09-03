@@ -3,6 +3,7 @@ from geometry_msgs.msg import WrenchStamped
 from industrial_msgs.msg import RobotStatus
 from mqtt_spb_wrapper import MqttSpbEntityDevice
 from sensor_msgs.msg import JointState
+from std_msgs.msg import Float32
 
 
 def wrenchstamped_to_bytearray(ros_data, callback_args):
@@ -76,3 +77,16 @@ def jointstates_to_bytearray(ros_data, callback_args):
         device.publish_data()
     else:
         rospy.logerr(f"Data is not of type JointState, it is of type {type(ros_data)}")
+
+def float32_to_bytearray(ros_data, callback_args):
+    device = callback_args[0]
+    prefix = callback_args[1]
+    if isinstance(ros_data, Float32):
+        
+        prefix = 'DATA/'+prefix
+        data = ros_data
+        device.data.set_value(prefix, data.data)
+        device.publish_data()
+        print("I actually published audio today!")
+    else:
+        rospy.logerr(f"Data is not of type float, it is of type {type(ros_data)}")

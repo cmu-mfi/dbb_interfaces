@@ -6,8 +6,9 @@ services:
     image: mqtt_ros_publisher:latest
     container_name: mqtt_ros
     hostname: mqtt_ros
-    networks:
-      - ros
+    network_mode: host
+    # networks:
+    #   - ros
     environment:
       - "ROS_MASTER_URI=http://192.168.1.2:11311"
     command:

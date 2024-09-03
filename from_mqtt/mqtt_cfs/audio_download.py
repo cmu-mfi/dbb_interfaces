@@ -21,6 +21,7 @@ class AudioDownload:
         start_time = message['start_time']
         audio_info = message['audio_info']
         filename_prefix = message['config']['fileprefix']
+        filename_prefix = filename_prefix.replace('_', '-')
         fileext = message['config']['fileext']
         
         try:
