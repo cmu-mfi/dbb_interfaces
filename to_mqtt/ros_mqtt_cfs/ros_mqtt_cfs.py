@@ -1,53 +1,48 @@
 import roslibpy
+import rospy
 import yaml
 from audio_handler import AudioHandler
+from image_handler import ImageHandler
 from mqtt_publisher import MQTTPublisher
 from pcd_handler import PCDHandler
-from image_handler import ImageHandler
+
 
 class ROSListener:
     def __init__(self, config) -> None:
 
         self.config = config
-        self.ros_client = roslibpy.Ros(
-            host=config['ros_websocket']['host'], port=config['ros_websocket']['port'])
-
-        self.ros_client.on_ready(self.on_ready)
-
+        rospy.init_node('ros_mqtt_cfs', anonymous=False)
         self.mqtt_obj = MQTTPublisher(config['secret'])
-
-        self.listeners = []
-
-        self.ros_client.run()
+        self.on_ready()
+        rospy.spin()
 
     def on_ready(self):
-        print('ROS connected:', self.ros_client.is_connected)
+        print('ROS connected')
         for topic in config['ros_topics']:
             topic_info = config['ros_topics'][topic]
-            listener = roslibpy.Topic(
-                self.ros_client, topic, topic_info['type'])
             topic_handler = self.get_topichandler(topic)
-            listener.subscribe(topic_handler.callback)
-            print(f"Subscribed to {topic}")
-            self.listeners.append(listener)
-
-    def __del__(self):
-        for listener in self.listeners:
-            listener.unsubscribe()
-        self.ros_client.terminate()
-        del self.mqtt_obj
+            try:
+                rospy.Subscriber(topic, type(topic_handler.dummy), topic_handler.callback)
+                print(f"Subscribed to {topic}")
+            except Exception as e:
+                print(f"Failed to subscribe to {topic}: {e}")
 
     def get_topichandler(self, topic):
         topic_config = self.config['ros_topics'][topic]
         if topic_config['type'] == 'sounddevice_ros/AudioData':
-            return AudioHandler(topic_config, self.ros_client, self.mqtt_obj)
+            return AudioHandler(topic_config, self.mqtt_obj)            
         elif topic_config['type'] == 'sensor_msgs/PointCloud2':
-            return PCDHandler(topic_config, self.ros_client, self.mqtt_obj)
+            return PCDHandler(topic_config, self.mqtt_obj)
         elif topic_config['type'] == 'sensor_msgs/Image':
-            return ImageHandler(topic_config, self.ros_client, self.mqtt_obj)
+            return ImageHandler(topic_config, self.mqtt_obj)
+        # elif topic_config['type'] == 'sensor_msgs/PointCloud2':
+        #     return PCDHandler(topic_config, self.ros_client, self.mqtt_obj)
+        # elif topic_config['type'] == 'sensor_msgs/Image':
+        #     return ImageHandler(topic_config, self.ros_client, self.mqtt_obj)
         
         else:
-            raise (f"Unknown topic type: {topic_config['type']}")
+            # raise (f"Unknown topic type: {topic_config['type']}")
+            pass
 
 
 if __name__ == '__main__':
@@ -69,8 +64,11 @@ if __name__ == '__main__':
 
     obj = ROSListener(config)
 
-    try:
-        while True:
-            pass
-    except KeyboardInterrupt:
-        del obj
+    # try:
+    #     while True:
+    #         pass
+    # except KeyboardInterrupt:
+    #     del obj
+    
+    while rospy.is_shutdown():
+        pass

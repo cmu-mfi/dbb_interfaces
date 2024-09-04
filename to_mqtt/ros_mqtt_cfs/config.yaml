@@ -33,25 +33,26 @@ ros_topics:
     mqtt_dict_keys: ['audio_info', 'config', 'start_time', 'audio_data']
     keep_log: False
 
-  /camera/depth/color/points:
-    name: '/camera/depth/color/points'
+  /yk_builder/side_camera/color/points:
+    name: '/yk_builder/side_camera/color/points'
     type: 'sensor_msgs/PointCloud2'
     experiment_class: 'wp-place-train' # maximum characters allowed = 32
-    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32
+    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32, use no '_' in the fileprefix
     fileext: 'ply' # maximum allowed characters = 8
     mqtt_topic: 'ros_mqtt_lfs/pointcloud'
     mqtt_dict_keys: ['config', 'timestamp', 'points']
     keep_log: False
 
-  /camera/color/image_raw:
-    name: '/camera/color/image_raw'
+  /yk_builder/side_camera/color/image_raw:
+    name: '/yk_builder/side_camera/color/image_raw'
     type: 'sensor_msgs/Image'
     experiment_class: 'wp-place-train' # maximum characters allowed = 32
-    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32
+    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32, use no '_' in the fileprefix
     fileext: 'png' # maximum allowed characters = 8
     mqtt_topic: 'ros_mqtt_lfs/image'
     mqtt_dict_keys: ['config', 'timestamp', 'data']
     keep_log: False
+    time_interval: 5 # in seconds. use 0 for default
 
   /yk_creator/wrist_camera/color/image_raw:
     name: '/yk_creator/wrist_camera/color/image_raw'
@@ -62,6 +63,7 @@ ros_topics:
     mqtt_topic: 'ros_mqtt_lfs/image'
     mqtt_dict_keys: ['config', 'timestamp', 'data']
     keep_log: False
+    time_interval: 5 # in seconds. use 0 for default
 
   /yk_creator/side_camera/color/image_cropped:
     name: '/yk_creator/side_camera/color/image_cropped'
@@ -72,3 +74,26 @@ ros_topics:
     mqtt_topic: 'ros_mqtt_lfs/image'
     mqtt_dict_keys: ['config', 'timestamp', 'data']
     keep_log: False
+    time_interval: 5 # in seconds. use 0 for default
+
+  /camera/depth/color/points:
+    name: '/camera/depth/color/points'
+    type: 'sensor_msgs/PointCloud2'
+    experiment_class: 'wp-place-train' # maximum characters allowed = 32
+    fileprefix: 'nist_rtc_ykb_rs' # maximum characters allowed = 32, use no '_' in the fileprefix
+    fileext: 'ply' # maximum allowed characters = 8
+    mqtt_topic: 'ros_mqtt_lfs/pointcloud'
+    mqtt_dict_keys: ['config', 'timestamp', 'points']
+    keep_log: False
+    time_interval: 5 # in seconds. use 0 for default
+
+  /camera/color/image_raw:
+    name: '/camera/color/image_raw'
+    type: 'sensor_msgs/Image'
+    experiment_class: 'wp-place-train' # maximum allowed characters = 32
+    fileprefix: 'nist_rtc_ykc_side' # maximum allowed characters = 32
+    fileext: 'png' # maximum allowed characters = 8
+    mqtt_topic: 'ros_mqtt_lfs/image'
+    mqtt_dict_keys: ['config', 'timestamp', 'data']
+    keep_log: False
+    time_interval: 5 # in seconds. use 0 for default

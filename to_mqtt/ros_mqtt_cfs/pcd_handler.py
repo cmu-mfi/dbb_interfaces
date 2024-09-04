@@ -11,13 +11,21 @@ from ctypes import POINTER, c_float, c_uint32, cast, pointer
 import numpy as np
 import open3d as o3d
 from mqtt_publisher import MQTTPublisher
+from sensor_msgs.msg import PointCloud2
 
 
 class PCDHandler:
-    def __init__(self, config, ros_client, mqtt_obj: MQTTPublisher = None) -> None:
+    def __init__(self, config, mqtt_obj: MQTTPublisher = None) -> None:
         self.config = config
         self.topic = config['name']
-        self.ros_client = ros_client
+        self.dummy = PointCloud2()
+        self.last_capture = None
+        
+        if 'time_interval' in self.config and \
+            self.config['time_interval'] > 0:
+            self.time_interval = self.config['time_interval']
+        else:
+            self.time_interval = 0        
 
         if mqtt_obj is not None:
             self.mqtt_obj = mqtt_obj
@@ -50,9 +58,15 @@ class PCDHandler:
         self.mqtt_obj.publish(self.config['mqtt_topic'], pcd_pickle)
 
     def callback(self, message):
-        print('PCD callback')
         pcd_data = message
         timestamp = datetime.datetime.now()
+        
+        if self.last_capture is not None:
+            time_diff = timestamp - self.last_capture
+            if time_diff.total_seconds() < self.time_interval:
+                return
+        self.last_capture = timestamp          
+        print('PCD callback')
 
         def convert_rgbUint32_to_tuple(rgb_uint32): return (
             (rgb_uint32 & 0x00FF0000) >> 16,
@@ -65,7 +79,7 @@ class PCDHandler:
         )
 
         # Get cloud data from ros_cloud
-        field_names = [field["name"] for field in pcd_data["fields"]]
+        field_names = [field.name for field in pcd_data.fields]
         cloud_data = list(self.read_points(
             pcd_data, skip_nans=True, field_names=field_names))
 
@@ -148,36 +162,35 @@ class PCDHandler:
             offset = 0
             for field in (
                 f
-                for f in sorted(fields, key=lambda f: f["offset"])
-                if field_names is None or f["name"] in field_names
+                for f in sorted(fields, key=lambda f: f.offset)
+                if field_names is None or f.name in field_names
             ):
-                if offset < field["offset"]:
-                    fmt += "x" * (field["offset"] - offset)
-                    offset = field["offset"]
-                if field["datatype"] not in _DATATYPES:
+                if offset < field.offset:
+                    fmt += "x" * (field.offset - offset)
+                    offset = field.offset
+                if field.datatype not in _DATATYPES:
                     print(
-                        "Skipping unknown PointField datatype [%d]" % field["datatype"],
+                        "Skipping unknown PointField datatype [%d]" % field.datatype,
                         file=sys.stderr,
                     )
                 else:
-                    datatype_fmt, datatype_length = _DATATYPES[field["datatype"]]
-                    fmt += field["count"] * datatype_fmt
-                    offset += field["count"] * datatype_length
+                    datatype_fmt, datatype_length = _DATATYPES[field.datatype]
+                    fmt += field.count * datatype_fmt
+                    offset += field.count * datatype_length
 
             return fmt
 
-        fmt = get_struct_fmt(cloud["is_bigendian"],
-                             cloud["fields"], field_names)
+        fmt = get_struct_fmt(cloud.is_bigendian,
+                             cloud.fields, field_names)
         width, height, point_step, row_step, data, isnan = (
-            cloud["width"],
-            cloud["height"],
-            cloud["point_step"],
-            cloud["row_step"],
-            cloud["data"],
+            cloud.width,
+            cloud.height,
+            cloud.point_step,
+            cloud.row_step,
+            cloud.data,
             math.isnan,
         )
-        data = base64.b64decode(data)
-        data = np.frombuffer(data, dtype=np.uint8)
+
         unpack_from = struct.Struct(fmt).unpack_from
 
         if skip_nans:
