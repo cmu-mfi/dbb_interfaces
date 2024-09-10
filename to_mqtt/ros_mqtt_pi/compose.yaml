@@ -9,6 +9,9 @@ services:
     network_mode: host
     # networks:
     #   - ros
+    # volumes:
+    # add ros packages here that might be needed for the ros callbacks
+    #   - /home/mfi/repos/ros1_ws/src/kevin/sounddevice_ros:/root/catkin_ws/src/sounddevice_ros
     environment:
       - "ROS_MASTER_URI=http://192.168.1.2:11311"
     command:

@@ -85,7 +85,7 @@ def float32_to_bytearray(ros_data, callback_args):
         
         prefix = 'DATA/'+prefix
         data = ros_data
-        device.data.set_value(prefix, data.data)
+        device.data.set_value(prefix+"/data", data.data)
         device.publish_data()
         print("I actually published audio today!")
     else:

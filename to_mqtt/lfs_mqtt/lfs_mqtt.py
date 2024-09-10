@@ -44,12 +44,15 @@ class DirectoryWatcher(FileSystemEventHandler):
         
         print(f"New file created: {event.src_path}")
         
+        time.sleep(1)
+        
         ext = event.src_path.split('.')[-1]    
         topic = 'lfs/' + ext
         data_dict = {}
         
         for key in self.config['message_dict']:
             value = self.get_event_data(event, key)
+            print(f"{key}: {value}")
             if value is not None:
                 data_dict[key] = value
                 

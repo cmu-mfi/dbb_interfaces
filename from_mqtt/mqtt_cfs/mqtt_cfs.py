@@ -74,7 +74,7 @@ class MQTTSubscriber:
         filename = "untitled"
         experiment_class = ''.join(np.random.choice(list('0123456789abcdefghijklmnopqrstuvwxyz'), 4))
         time_val = time.strftime("%Y-%m-%d_%H-%M")
-        timestamp = f"_{time_val}"
+        timestamp = f"{time_val}"
         expected_ext = message.topic.split('/')[-1]
         ext = expected_ext
         

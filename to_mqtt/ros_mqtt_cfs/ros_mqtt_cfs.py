@@ -35,13 +35,9 @@ class ROSListener:
             return PCDHandler(topic_config, self.mqtt_obj)
         elif topic_config['type'] == 'sensor_msgs/Image':
             return ImageHandler(topic_config, self.mqtt_obj)
-        # elif topic_config['type'] == 'sensor_msgs/PointCloud2':
-        #     return PCDHandler(topic_config, self.ros_client, self.mqtt_obj)
-        # elif topic_config['type'] == 'sensor_msgs/Image':
-        #     return ImageHandler(topic_config, self.ros_client, self.mqtt_obj)
-        
+ 
         else:
-            # raise (f"Unknown topic type: {topic_config['type']}")
+            print(f"Unknown topic type: {topic_config['type']}")
             pass
 
 
@@ -70,5 +66,5 @@ if __name__ == '__main__':
     # except KeyboardInterrupt:
     #     del obj
     
-    while rospy.is_shutdown():
+    while not rospy.is_shutdown():
         pass

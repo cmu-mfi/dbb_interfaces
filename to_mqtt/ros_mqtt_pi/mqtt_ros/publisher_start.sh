@@ -24,6 +24,9 @@ if ! tmux has-session -t MQTT-ROS 2>/dev/null; then
 fi
 
 create_window "MQTT-ROS" "publisher"
+tmux send-keys -t MQTT-ROS:publisher 'cd /root/catkin_ws' C-m
+tmux send-keys -t MQTT-ROS:publisher 'catkin_make' C-m
+tmux send-keys -t MQTT-ROS:publisher 'source /root/catkin_ws/devel/setup.bash' C-m
 tmux send-keys -t MQTT-ROS:publisher 'python3 /root/mqtt_transmitter/scripts/mqtt_publisher.py' C-m
 
 tail -f /dev/null
