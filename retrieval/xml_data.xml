@@ -1,0 +1,14 @@
+<metadata>
+    <project>
+        <title>RTC</title>
+        <description>Based on NIST Insertion task, using vision and vibrotactile to create models for NIST board insertion tasks</description>
+        <organization>CMU, ARM</organization>
+        <members>Oliver Kroemer, David Held, Gary Fedder , Joseph Giampapa, Shobhit Aggarwal, Rod Heiple, Kevin Zhang, Michael Skocik, Stephanie Steren-Ruta, Christopher Chang</members>
+    </project>
+    <Experiment>
+        <title>Demo</title>
+        <description>Demo to test capability of full project</description>
+        <starttime/>
+        <endtime/>
+    </Experiment>
+</metadata>
