@@ -5,11 +5,30 @@ import numpy as np
 
 
 class ImageDownload:
-    def __init__(self, config) -> None:
+    """
+    A class to handle image downloading and saving based on a given configuration.
+    Attributes:
+        config (dict): Configuration dictionary containing necessary keys for processing messages.
+    Methods:
+        __init__(config):
+            Initializes the ImageDownload instance with the provided configuration.
+        save_file(message, output_path):
+            Saves an image file based on the provided message and output path
+    """
+    def __init__(self, config: dict) -> None:      
         self.config = config
         print('Image Handler initialized')
 
     def save_file(self, message, output_path):
+        """
+        Saves an image file based on the provided message and output path.
+        Args:
+            message (dict): Dictionary containing image data and metadata.
+                            Expected keys are defined in the config['message_dict_keys'].
+            output_path (str): Path where the image file will be saved.
+        Returns:
+            None
+        """
         print('Saving image...')
 
         if not all(key in message for key in self.config['message_dict_keys']):

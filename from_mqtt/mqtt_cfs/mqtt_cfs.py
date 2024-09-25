@@ -12,6 +12,37 @@ from pcd_download import PCDDownload
 
 
 class MQTTSubscriber:
+    """
+    A class to handle MQTT subscriptions and message processing.
+    Attributes:
+    -----------
+    broker : str
+        The MQTT broker address.
+    port : int
+        The port number to connect to the MQTT broker.
+    username : str
+        The username for MQTT broker authentication.
+    password : str
+        The password for MQTT broker authentication.
+    client : mqtt.Client
+        The MQTT client instance.
+    config : dict
+        Configuration dictionary containing topics and output paths.
+    topics : list
+        List of topics to subscribe to.
+    Methods:
+    --------
+    __init__(secret, config):
+        Initializes the MQTTSubscriber with broker details and configuration.
+    on_connect(client, userdata, flags, rc):
+        Callback for when the client receives a CONNACK response from the server.
+    on_message(client, userdata, message):
+        Callback for when a PUBLISH message is received from the server.
+    custom_handler(dict, config, output_path):
+        Handles custom message types based on the configuration.
+    general_handler(message, dict, output_path):
+        Handles general message types and saves the received file.
+    """
     
     def __init__(self, secret, config):
         self.broker = secret['broker']

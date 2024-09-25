@@ -9,7 +9,31 @@ import platform
 import argparse
 
 class MQTTPublisher:
-    
+    """
+    A class to handle MQTT publishing with authentication.
+    Attributes:
+    -----------
+    broker : str
+        The MQTT broker address.
+    port : int
+        The port number to connect to the MQTT broker.
+    username : str
+        The username for MQTT broker authentication.
+    password : str
+        The password for MQTT broker authentication.
+    client : mqtt.Client
+        The MQTT client instance.
+    Methods:
+    --------
+    __init__(secret):
+        Initializes the MQTTPublisher with broker details and credentials.
+    __del__():
+        Disconnects the MQTT client upon object deletion.
+    on_connect(client, userdata, flags, rc):
+        Callback function for when the client receives a CONNACK response from the server.
+    publish(topic, payload):
+        Publishes a base64 encoded payload to a specified MQTT topic.
+    """    
     def __init__(self, secret):
         self.broker = secret['broker']
         self.port = secret['port']
@@ -32,13 +56,46 @@ class MQTTPublisher:
         self.client.publish(topic, encoded_data)
 
 class DirectoryWatcher(FileSystemEventHandler):
+    """
+    A class to watch a directory for new file creations and publish events to an MQTT topic.
+    Attributes:
+    -----------
+    path : str
+        The directory path to watch for new files.
+    pub : MQTTClient
+        The MQTT client used to publish messages.
+    config : dict
+        Configuration dictionary containing watch directory, message dictionary, and other settings.
+    Methods:
+    --------
+    on_created(event):
+        Handles the event when a new file is created in the watched directory.
+    get_event_data(event, key):
+        Retrieves specific data from the event based on the provided key.
+    """
 
     def __init__(self, config, mqtt_pub):
+        """
+        Initializes the DirectoryWatcher with the given configuration and MQTT client.
+        Parameters:
+        -----------
+        config : dict
+            Configuration dictionary containing watch directory, message dictionary, and other settings.
+        mqtt_pub : MQTTClient
+            The MQTT client used to publish messages.
+        """
         self.path = config['watch_dir']
         self.pub = mqtt_pub
         self.config = config
 
     def on_created(self, event):
+        """
+        Handles the event when a new file is created in the watched directory.
+        Parameters:
+        -----------
+        event : FileSystemEvent
+            The event object representing the file creation event.
+        """
         if event.is_directory:
             return
         
@@ -60,6 +117,19 @@ class DirectoryWatcher(FileSystemEventHandler):
         self.pub.publish(topic, data)
         
     def get_event_data(self, event, key):
+        """
+        Retrieves specific data from the event based on the provided key.
+        Parameters:
+        -----------
+        event : FileSystemEvent
+            The event object representing the file creation event.
+        key : str
+            The key indicating which data to retrieve from the event.
+        Returns:
+        --------
+        Any
+            The data corresponding to the provided key. Returns None if the key is not recognized.
+        """
         if key == 'name':
             if platform.system() == 'Windows':
                 name = event.src_path.split('\\')[-1]

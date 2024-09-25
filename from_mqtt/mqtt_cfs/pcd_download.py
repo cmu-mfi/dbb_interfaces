@@ -5,11 +5,25 @@ import open3d as o3d
 
 
 class PCDDownload:
-    def __init__(self, config) -> None:
+    """
+    A class to handle the downloading and saving of point cloud data (PCD) files.
+    Attributes:
+        config (dict): Configuration dictionary containing necessary keys and settings.
+    """
+    def __init__(self, config: dict) -> None:
         self.config = config
         print('PCD Handler initialized')
 
     def save_file(self, message, output_path):
+        """
+        Saves the point cloud data from the message to a file in the specified output path.
+        Args:
+            message (dict): Dictionary containing the point cloud data and metadata.
+                            Expected keys are defined in the config['message_dict_keys'].            
+            output_path (str): The directory path where the file will be saved.
+        Returns:
+            None
+        """
         print('Saving pcd...')
 
         if not all(key in message for key in self.config['message_dict_keys']):
