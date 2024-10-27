@@ -27,7 +27,7 @@ class SPBPublish:
         
         self.config = config
         self.read_config()
-        breakpoint()
+
         # add global config to each instance
         experiment_class = config['experiment_class']
         for topic in config['ros_topics']:
