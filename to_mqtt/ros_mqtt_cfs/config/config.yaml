@@ -1,0 +1,67 @@
+experiment_class: 'arm_members_exhibit'  # maximum allowed characters = 32
+ros_websocket:
+  host: 'localhost'
+  port: 9090
+
+ros_topics:
+  /yk_creator/audio:
+    audio_info_topic: '/yk_creator/audio_info'
+    defaults: audio
+    fileprefix: 'ykc_mic1' # maximum allowed characters = 32
+
+  /yk_builder/audio:
+    audio_info_topic: '/yk_builder/audio_info'
+    defaults: audio
+    fileprefix: 'ykb_mic1' # maximum allowed characters = 32
+
+  /yk_builder/side_camera/color/points:
+    defaults: pointcloud
+    fileprefix: 'ykb_rs' # maximum characters allowed = 32, use no '_' in the fileprefix
+
+  /yk_builder/side_camera/color/image_raw:
+    defaults: image
+    fileprefix: 'ykb_rs' # maximum characters allowed = 32, use no '_' in the fileprefix
+
+  /yk_creator/wrist_camera/color/image_raw:
+    defaults: image
+    fileprefix: 'ykc_wrist' # maximum allowed characters = 32
+
+  /yk_creator/side_camera/color/image_cropped:
+    defaults: image
+    fileprefix: 'ykc_side' # maximum allowed characters = 32
+
+  /camera/depth/color/points:
+    defaults: pointcloud
+    fileprefix: 'ykb_rs' # maximum characters allowed = 32, use no '_' in the fileprefix
+
+  /camera/color/image_raw:
+    defaults: image
+    fileprefix: 'ykb_side' # maximum allowed characters = 32
+
+############################################
+# DO NOT CHANGE BELOW THIS LINE
+defaults:
+  audio:
+    type: 'sounddevice_ros/AudioData'
+    duration_min: 1
+    audio_features: ['rms', 'zcr', 'max_freq']
+    audio_feature_topics: ['rms', 'zcr', 'max_freq']
+    mqtt_topic: 'ros_mqtt_lfs/audio'
+    mqtt_dict_keys: ['audio_info', 'config', 'start_time', 'audio_data']
+    keep_log: False
+
+  image:
+    type: 'sensor_msgs/Image'
+    fileext: 'png'
+    mqtt_topic: 'ros_mqtt_lfs/image'
+    mqtt_dict_keys: ['config', 'timestamp', 'data']
+    keep_log: False
+    time_interval: 5
+
+  pointcloud:
+    type: 'sensor_msgs/PointCloud2'
+    fileext: 'ply'
+    mqtt_topic: 'ros_mqtt_lfs/pointcloud'
+    mqtt_dict_keys: ['config', 'timestamp', 'points']
+    keep_log: False
+    time_interval: 5

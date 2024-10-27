@@ -1,6 +1,6 @@
 import time
 
-import ros_callback
+import core.ros_callback as ros_callback
 import rospy
 from mqtt_spb_wrapper import MqttSpbEntityDevice
 from roslib.message import get_message_class

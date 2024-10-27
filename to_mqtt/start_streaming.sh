@@ -42,7 +42,8 @@ tmux send-keys -t DDB_UPSTREAM:lfs_mqtt 'python3 lfs_mqtt.py' C-m
 create_window "DDB_UPSTREAM" "ros_mqtt_cfs"
 tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'cd ros_mqtt_cfs/' C-m
 tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'source venv/bin/activate' C-m
-tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'python3 ros_mqtt_cfs.py' C-m
+tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'pip install -e .' C-m
+tmux send-keys -t DDB_UPSTREAM:ros_mqtt_cfs 'python3 scripts/mqtt_publisher.py' C-m
 
 create_window "DDB_UPSTREAM" "ros_mqtt_pi"
 tmux send-keys -t DDB_UPSTREAM:ros_mqtt_pi 'cd ros_mqtt_pi' C-m

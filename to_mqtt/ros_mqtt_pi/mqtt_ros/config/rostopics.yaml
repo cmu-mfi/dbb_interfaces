@@ -1,0 +1,17 @@
+experiment_class: 'untitled'
+
+topics:
+  - yk_architect/fts
+  - yk_architect/robot_status
+  - yk_architect/joint_states
+  - yk_builder/fts
+  - yk_builder/robot_status
+  - yk_builder/joint_states
+  # - yk_builder/audio_max_freq
+  - yk_creator/fts
+  - yk_creator/robot_status
+  - yk_creator/joint_states
+  # - yk_creator/audio_max_freq
+  - yk_destroyer/fts
+  - yk_destroyer/robot_status
+  - yk_destroyer/joint_states

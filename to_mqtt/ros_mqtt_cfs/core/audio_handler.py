@@ -8,7 +8,7 @@ import numpy as np
 import roslibpy
 import rospy
 import soundfile as sf
-from mqtt_publisher import MQTTPublisher
+from core.mqtt_publisher import MQTTPublisher
 from sounddevice_ros.msg import AudioData, AudioInfo
 from std_msgs.msg import Float32
 

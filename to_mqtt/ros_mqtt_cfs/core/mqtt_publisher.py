@@ -21,7 +21,6 @@ class MQTTPublisher:
             print('Waiting for MQTT connection...')
             time.sleep(1)
 
-
         print('MQTT Publisher initialized')
 
     def __del__(self):

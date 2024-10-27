@@ -10,7 +10,7 @@ from ctypes import POINTER, c_float, c_uint32, cast, pointer
 
 import numpy as np
 import open3d as o3d
-from mqtt_publisher import MQTTPublisher
+from core.mqtt_publisher import MQTTPublisher
 from sensor_msgs.msg import PointCloud2
 
 

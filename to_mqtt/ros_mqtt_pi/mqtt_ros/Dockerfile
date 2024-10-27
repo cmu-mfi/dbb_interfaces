@@ -17,8 +17,9 @@ RUN mkdir -p ~/catkin_ws/src && \
     cd ~/catkin_ws/src/
 
 # Copy my package from the src directory to the catkin workspace in the container
-COPY ./mqtt_transmitter /root/mqtt_transmitter
-WORKDIR /root/mqtt_transmitter/scripts
+COPY ./ /root/mqtt_ros
+WORKDIR /root/mqtt_ros
+RUN pip install -e .
 
 # Setup environment so that ROS can be used in bash shell
 RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc

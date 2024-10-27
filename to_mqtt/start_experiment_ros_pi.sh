@@ -8,4 +8,4 @@ else
     exit 1
 fi
 
-docker exec -it mqtt_ros bash -c 'source /opt/ros/noetic/setup.bash && python3 republish_birth.py'
+docker exec -it mqtt_ros bash -c 'source /opt/ros/noetic/setup.bash && python3 scripts/republish_birth.py'
