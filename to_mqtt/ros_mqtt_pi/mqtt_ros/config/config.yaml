@@ -1,0 +1,113 @@
+mqtt:
+  broker_address: 128.128.128.128
+  broker_port: 1883 
+  username: admin
+  password: password
+  group_name: Mill-19
+  node_name: Mezzanine-Lab
+  tls_enabled: False
+  debug: True
+
+experiment_class: 'untitled'
+
+devices:
+  yk_architect:
+    # topics: [fts, robot_status, joints_6dof]
+    topics: []
+    attributes:
+      description: Architect - Yaskawa GP4 Robot System
+      type: Robot
+      version: 0.01
+      # experiment_class: 'wp-place-01'
+  yk_builder:
+    # topics: [fts, robot_status, joints_6dof, audio_max_freq]
+    topics: []
+    attributes:
+      description: Builder - Yaskawa GP4 Robot System
+      type: Robot
+      version: 0.01
+      # experiment_class: 'wp-place-01'
+  yk_creator:
+    # topics: [fts, robot_status, joints_6dof, audio_max_freq]
+    topics: []
+    attributes:
+      description: Creator - Yaskawa GP4 Robot System
+      type: Robot
+      version: 0.01
+      # experiment_class: 'wp-place-01'
+  yk_destroyer:
+    # topics: [fts, robot_status, joints_6dof]
+    topics: []
+    attributes:
+      description: Destroyer - Yaskawa GP4 Robot System
+      type: Robot
+      version: 0.01
+      # experiment_class: 'wp-place-01'
+
+# If adding new topics, make sure to add the corresponding functions in the ros_callback.py file
+topics:
+  fts:
+    rostopic: fts
+    ros_type: geometry_msgs/WrenchStamped
+    function: wrenchstamped_to_bytearray
+    spb_prefix: fts
+    spb_init:
+      header.seq: 0
+      header.stamp.sec: 0
+      header.stamp.nsec: 0
+      header.frame_id: ""
+      wrench.force.x: 0.0
+      wrench.force.y: 0.0
+      wrench.force.z: 0.0
+      wrench.torque.x: 0.0
+      wrench.torque.y: 0.0
+      wrench.torque.z: 0.0
+
+  robot_status:
+    rostopic: robot_status
+    ros_type: industrial_msgs/RobotStatus
+    function: robotstatus_to_bytearray
+    spb_prefix: robot_status
+    spb_init:
+      header.seq: 0
+      header.stamp.secs: 0
+      header.stamp.nsecs: 0
+      header.frame_id: ""
+      mode.val: -1
+      e_stopped.val: -1
+      drives_powered.val: -1
+      motion_possible.val: -1
+      in_motion.val: -1
+      in_error.val: -1
+      error_code: 0
+
+  joints_6dof:
+    rostopic: joint_states
+    ros_type: sensor_msgs/JointState
+    function: jointstates_to_bytearray
+    spb_prefix: joint_states
+    spb_init:
+      header.seq: 0
+      header.stamp.secs: 0
+      header.stamp.nsecs: 0
+      header.frame_id: 0
+      position/joint_1: 0.0
+      position/joint_2: 0.0
+      position/joint_3: 0.0
+      position/joint_4: 0.0
+      position/joint_5: 0.0
+      position/joint_6: 0.0
+      velocity/joint_1: 0.0
+      velocity/joint_2: 0.0
+      velocity/joint_3: 0.0
+      velocity/joint_4: 0.0
+      velocity/joint_5: 0.0
+      velocity/joint_6: 0.0
+
+  audio_max_freq:
+    rostopic: max_freq
+    ros_type: std_msgs/Float32
+    function: float32_to_bytearray
+    spb_prefix: audio_max_freq
+    spb_init:
+      data: 0.0
