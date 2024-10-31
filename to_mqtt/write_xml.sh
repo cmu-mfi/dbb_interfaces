@@ -1,0 +1,1 @@
+source /home/mfi/repos/dbb_interfaces/to_mqtt/lfs_mqtt/venv/bin/activate && python /home/mfi/repos/dbb_interfaces/to_mqtt/lfs_mqtt/write_xml/write_xml.py
