@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <metadata>
     <project>
-        <title></title>
+        <title>Registered Project Name, e.g. "NIST RTC"</title>
     </project>
     <experiment>
-        <title></title>
-        <description></description>
-        <starttime></starttime>
-        <endtime></endtime>
-    </experiment>          
+        <title>"experiment_class" value used when streamed data</title>
+        <description>Brief description, e.g. "Demo to test capability of full project"</description>
+        <starttime>YYYY-MM-DD HH:MM:SS, e.g. "2024-07-28 16:00:00"</starttime>
+        <endtime>YYYY-MM-DD HH:MM:SS, e.g. "2024-07-28 16:00:00"</endtime>
+    </experiment>
 </metadata>

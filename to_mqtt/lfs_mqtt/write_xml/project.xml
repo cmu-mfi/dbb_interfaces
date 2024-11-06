@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <metadata>
     <project>
-        <title>example instructions</title>
-        <attr1>example instructions</attr1>
+        <title>Project Name. Tip: Keep it short, e.g. "NIST RTC"</title>
+        <description>
+            Brief description (1-2 sentences). E.g. "The Robotic Training Center (RTC) creates machine learning models for insertion tasks."
+        </description>
+        <members>Andrew ID(s) (seperated by comma). E.g. "shobhita, ssterenr, klz1"</members>
+        <organization>Organization(s) (seperated by comma), e.g. "CMU, ARM" or "SCS, RI, ME"</organization>
     </project>
-</metadata>
