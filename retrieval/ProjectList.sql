@@ -1,5 +1,3 @@
-﻿USE [MFI]
-GO
 /****** Object:  StoredProcedure [dbo].[ProjectList]    Script Date: 11/7/2024 3:33:21 PM ******/
 SET ANSI_NULLS ON
 GO
