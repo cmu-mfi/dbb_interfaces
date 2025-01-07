@@ -1,0 +1,8 @@
+cmake 
+#std_msgs
+paho-mqtt==1.6.1
+# protobuf==3.20.1 # Needed to 
+omegaconf
+pandas
+rospkg
+mfi_ddb @ git+https://github.com/cmu-mfi/mfi_ddb_library.git

@@ -1,0 +1,9 @@
+mqtt:
+  broker_address: 128.237.92.30
+  broker_port: 1883 
+  username: admin
+  password: 'CMUmfi2024!'
+  group_name: Mill-19
+  node_name: Mezzanine-Lab
+  tls_enabled: False
+  debug: True
