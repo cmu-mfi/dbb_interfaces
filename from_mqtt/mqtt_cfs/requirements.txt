@@ -4,3 +4,4 @@ numpy
 soundfile
 open3d
 opencv-python
+mfi_ddb @ git+https://github.com/cmu-mfi/mfi_ddb_library.git
