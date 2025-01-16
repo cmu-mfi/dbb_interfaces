@@ -39,7 +39,7 @@ def main():
         config = yaml.safe_load(file)
     output_dir = config['watch_dir'][0]
     timestamp = time.strftime("%m-%d_%H-%M-%S")
-
+    
     if template_file == "1":
         template_file = os.path.join(script_dir, "project.xml")
         output_file = os.path.join(output_dir, f"project_{timestamp}.xml")
@@ -49,7 +49,7 @@ def main():
     else:
         print("Invalid selection. Exiting...")
         return
-    
+
     template = load_template(template_file)
     print("Template loaded successfully")
     

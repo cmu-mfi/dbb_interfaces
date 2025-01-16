@@ -1,7 +1,8 @@
 cmake 
 #std_msgs
 paho-mqtt==1.6.1
-protobuf==3.20.1 # Needed to 
+# protobuf==3.20.1 # Needed to 
+protobuf
 mqtt-spb-wrapper
 omegaconf
 pandas
